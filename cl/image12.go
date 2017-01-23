@@ -23,10 +23,10 @@ typedef struct {
     size_t                  image_slice_pitch;
     cl_uint                 num_mip_levels;
     cl_uint                 num_samples;
-	cl_mem                  buffer;
+    cl_mem                  buffer;
 } cl_image_desc_no_union;
 
- */
+*/
 import "C"
 import "unsafe"
 

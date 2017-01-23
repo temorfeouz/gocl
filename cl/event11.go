@@ -13,7 +13,7 @@ package cl
 #include "CL/opencl.h"
 #endif
 
- */
+*/
 import "C"
 
 ///////////////////////////////////////////////
