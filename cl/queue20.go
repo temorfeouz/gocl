@@ -22,13 +22,13 @@ func CLCreateCommandQueueWithProperties(context CL_context,
 	var c_errcode_ret C.cl_int
 	var c_command_queue C.cl_command_queue
 
-	var c_properties []C.cl_command_queue_properties
-	var c_properties_ptr *C.cl_command_queue_properties
+	var c_properties []C.cl_queue_properties
+	var c_properties_ptr *C.cl_queue_properties
 
 	if properties != nil {
-		c_properties = make([]C.cl_command_queue_properties, len(properties))
+		c_properties = make([]C.cl_queue_properties, len(properties))
 		for i := 0; i < len(properties); i++ {
-			c_properties[i] = C.cl_command_queue_properties(properties[i])
+			c_properties[i] = C.cl_queue_properties(properties[i])
 		}
 		c_properties_ptr = &c_properties[0]
 	} else {

@@ -12,6 +12,20 @@ package cl
 #else
 #include "CL/opencl.h"
 #endif
+
+typedef struct {
+    cl_mem_object_type      image_type;
+    size_t                  image_width;
+    size_t                  image_height;
+    size_t                  image_depth;
+    size_t                  image_array_size;
+    size_t                  image_row_pitch;
+    size_t                  image_slice_pitch;
+    cl_uint                 num_mip_levels;
+    cl_uint                 num_samples;
+	cl_mem                  buffer;
+} cl_image_desc_no_union;
+
  */
 import "C"
 import "unsafe"
@@ -28,7 +42,7 @@ func CLCreateImage(context CL_context,
 	errcode_ret *CL_int) CL_mem {
 
 	var c_image_format C.cl_image_format
-	var c_image_desc C.cl_image_desc
+	var c_image_desc C.cl_image_desc_no_union
 	var c_errcode_ret C.cl_int
 	var c_image C.cl_mem
 
@@ -49,7 +63,7 @@ func CLCreateImage(context CL_context,
 	c_image = C.clCreateImage(context.cl_context,
 		C.cl_mem_flags(flags),
 		&c_image_format,
-		&c_image_desc,
+		(*C.cl_image_desc)(unsafe.Pointer(&c_image_desc)),
 		host_ptr,
 		&c_errcode_ret)
 
