@@ -2,7 +2,7 @@ package cl_test
 
 import (
 	"fmt"
-	"gocl/cl"
+	"github.com/hmwill/gocl/cl"
 	"testing"
 	"unsafe"
 )

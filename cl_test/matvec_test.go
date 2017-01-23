@@ -1,7 +1,7 @@
 package cl_test
 
 import (
-	"gocl/cl"
+	"github.com/hmwill/gocl/cl"
 	"os"
 	"testing"
 	"unsafe"
