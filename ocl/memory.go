@@ -4,7 +4,7 @@ package ocl
 
 import (
 	"fmt"
-	"gocl/cl"
+	"github.com/hmwill/gocl/cl"
 	"unsafe"
 )
 

@@ -1,10 +1,10 @@
-// +build cl12
+// +build cl12 cl20
 
 package ocl
 
 import (
 	"fmt"
-	"gocl/cl"
+	"github.com/hmwill/gocl/cl"
 )
 
 func (this *device) CreateSubDevices(properties []cl.CL_device_partition_property) ([]Device, error) {

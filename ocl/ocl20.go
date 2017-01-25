@@ -3,7 +3,7 @@
 package ocl
 
 import (
-	"gocl/cl"
+	"github.com/hmwill/gocl/cl"
 	"unsafe"
 )
 

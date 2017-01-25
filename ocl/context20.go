@@ -3,7 +3,8 @@
 package ocl
 
 import (
-	"gocl/cl"
+	"github.com/hmwill/gocl/cl"
+	"fmt"
 	"unsafe"
 )
 
@@ -31,7 +32,27 @@ type context20 interface {
 	//cl20
 	CreateCommandQueueWithProperties(device Device,
 		properties []cl.CL_command_queue_properties) (CommandQueue, error)
-	CreateSamplerWithProperties(normalized_coords cl.CL_bool,
-		addressing_mode cl.CL_addressing_mode,
-		filter_mode cl.CL_filter_mode) (Sampler, error)
+	CreateSamplerWithProperties(properties []cl.CL_sampler_properties) (Sampler, error)
+}
+
+func (this *context) CreateCommandQueueWithProperties(device Device,
+	properties []cl.CL_command_queue_properties) (CommandQueue, error) {
+	var errCode cl.CL_int
+
+	if command_queue_id := cl.CLCreateCommandQueueWithProperties(this.context_id, device.GetID(), properties, &errCode); errCode != cl.CL_SUCCESS {
+		return nil, fmt.Errorf("CreateCommandQueueWithProperties failure with errcode_ret %d: %s", errCode, cl.ERROR_CODES_STRINGS[-errCode])
+	} else {
+		return &command_queue{command_queue_id}, nil
+	}
+}
+
+func (this *context) CreateSamplerWithProperties(properties []cl.CL_sampler_properties) (Sampler, error) {
+	var errCode cl.CL_int
+
+	if sampler_id := cl.CLCreateSamplerWithProperties(this.context_id, properties, &errCode); errCode != cl.CL_SUCCESS {
+		return nil, fmt.Errorf("CreateSamplerWithProperties failure with errcode_ret %d: %s", errCode, cl.ERROR_CODES_STRINGS[-errCode])
+	} else {
+		return &sampler{sampler_id}, nil
+	}
+
 }

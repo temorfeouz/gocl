@@ -1,10 +1,10 @@
-// +build cl11 cl12
+// +build cl11 cl12 cl20
 
 package ocl
 
 import (
 	"fmt"
-	"gocl/cl"
+	"github.com/hmwill/gocl/cl"
 	"unsafe"
 )
 
