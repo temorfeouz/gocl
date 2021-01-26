@@ -1,10 +1,11 @@
 package ocl_test
 
 import (
-	"gocl/cl"
 	"gocl/ocl"
 	"strings"
 	"testing"
+
+	"github.com/temorfeouz/gocl/cl"
 )
 
 func TestPlatform(t *testing.T) {

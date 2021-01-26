@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"gocl/cl"
 	"strings"
+
+	"github.com/temorfeouz/gocl/cl"
 )
 
 func main() {
@@ -47,7 +48,7 @@ func main() {
 			return
 		}
 
-		/* Access extension data */		
+		/* Access extension data */
 		err = cl.CLGetPlatformInfo(platforms[i], cl.CL_PLATFORM_EXTENSIONS,
 			ext_size, &ext_data, nil)
 		if err == cl.CL_SUCCESS {

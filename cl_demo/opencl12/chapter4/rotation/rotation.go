@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
-	"gocl/cl"
-	"gocl/cl_demo/utils"
 	"log"
 	"math"
 	"os"
 	"unsafe"
+
+	"github.com/temorfeouz/gocl/cl_demo/utils"
+
+	"github.com/temorfeouz/gocl/cl"
 )
 
 func chk(status cl.CL_int, cmd string) {

@@ -7,9 +7,11 @@ import "C"
 
 import (
 	"fmt"
-	"gocl/cl"
-	"gocl/cl_demo/utils"
 	"unsafe"
+
+	"github.com/temorfeouz/gocl/cl_demo/utils"
+
+	"github.com/temorfeouz/gocl/cl"
 )
 
 const PROGRAM_FILE = "blank.cl"

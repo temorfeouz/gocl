@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
-	"gocl/cl"
-	"gocl/cl_demo/utils"
 	"unsafe"
+
+	"github.com/temorfeouz/gocl/cl_demo/utils"
+
+	"github.com/temorfeouz/gocl/cl"
 )
 
 const PROGRAM_FILE = "profile_items.cl"

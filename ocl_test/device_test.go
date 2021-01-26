@@ -1,9 +1,10 @@
 package ocl_test
 
 import (
-	"gocl/cl"
 	"gocl/ocl"
 	"testing"
+
+	"github.com/temorfeouz/gocl/cl"
 )
 
 func TestDevice(t *testing.T) {

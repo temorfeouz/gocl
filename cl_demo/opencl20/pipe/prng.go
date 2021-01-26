@@ -1,8 +1,9 @@
 package main
 
 import (
-	"gocl/cl"
 	"math"
+
+	"github.com/temorfeouz/gocl/cl"
 )
 
 /***

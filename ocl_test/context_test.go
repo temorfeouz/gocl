@@ -1,10 +1,11 @@
 package ocl_test
 
 import (
-	"gocl/cl"
 	"gocl/ocl"
 	"testing"
 	"unsafe"
+
+	"github.com/temorfeouz/gocl/cl"
 )
 
 var t2 *testing.T

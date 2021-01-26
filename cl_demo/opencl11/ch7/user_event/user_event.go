@@ -3,11 +3,13 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"gocl/cl"
-	"gocl/cl_demo/utils"
 	"os"
 	"time"
 	"unsafe"
+
+	"github.com/temorfeouz/gocl/cl"
+
+	"github.com/temorfeouz/gocl/cl_demo/utils"
 )
 
 const PROGRAM_FILE = "user_event.cl"

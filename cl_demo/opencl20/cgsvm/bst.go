@@ -3,10 +3,12 @@ package main
 
 import (
 	"fmt"
-	"gocl/cl"
-	"gocl/cl_demo/utils"
 	"math/rand"
 	"unsafe"
+
+	"github.com/temorfeouz/gocl/cl_demo/utils"
+
+	"github.com/temorfeouz/gocl/cl"
 )
 
 const (

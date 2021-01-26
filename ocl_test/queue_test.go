@@ -1,10 +1,11 @@
 package ocl_test
 
 import (
-	"gocl/cl"
 	"gocl/ocl"
 	"os"
 	"testing"
+
+	"github.com/temorfeouz/gocl/cl"
 )
 
 func TestQueue(t *testing.T) {

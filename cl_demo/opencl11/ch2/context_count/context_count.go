@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"gocl/cl"
 	"unsafe"
+
+	"github.com/temorfeouz/gocl/cl"
 )
 
 func main() {

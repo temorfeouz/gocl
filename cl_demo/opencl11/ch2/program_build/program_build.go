@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"gocl/cl"
 	"os"
+
+	"github.com/temorfeouz/gocl/cl"
 )
 
 const (

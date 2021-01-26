@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"gocl/cl"
+
+	"github.com/temorfeouz/gocl/cl"
 )
 
 func DisplayDeviceInfo(id cl.CL_device_id,

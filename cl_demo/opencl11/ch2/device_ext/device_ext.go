@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"gocl/cl"
+
+	"github.com/temorfeouz/gocl/cl"
 )
 
 func main() {
@@ -44,7 +45,7 @@ func main() {
 	}
 
 	/* Obtain data for each connected device */
-	for i = 0; i < cl.CL_int(num_devices); i++ {	
+	for i = 0; i < cl.CL_int(num_devices); i++ {
 
 		err = cl.CLGetDeviceInfo(devices[i],
 			cl.CL_DEVICE_NAME,
@@ -56,7 +57,7 @@ func main() {
 			fmt.Printf("Failed to find OpenCL device info %s.\n", "NAME")
 			return
 		}
-		
+
 		err = cl.CLGetDeviceInfo(devices[i],
 			cl.CL_DEVICE_NAME,
 			paramValueSize,
@@ -77,7 +78,7 @@ func main() {
 			fmt.Printf("Failed to find OpenCL device info %s.\n", "NAME")
 			return
 		}
-		
+
 		err = cl.CLGetDeviceInfo(devices[i],
 			cl.CL_DEVICE_ADDRESS_BITS,
 			paramValueSize,
@@ -98,7 +99,7 @@ func main() {
 			fmt.Printf("Failed to find OpenCL device info %s.\n", "NAME")
 			return
 		}
-		
+
 		err = cl.CLGetDeviceInfo(devices[i],
 			cl.CL_DEVICE_EXTENSIONS,
 			paramValueSize,

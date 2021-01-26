@@ -3,11 +3,12 @@ package utils
 import (
 	"errors"
 	"fmt"
-	"gocl/cl"
 	"image"
 	"image/color"
 	"image/png"
 	"os"
+
+	"github.com/temorfeouz/gocl/cl"
 )
 
 func CHECK_STATUS(status cl.CL_int, reference cl.CL_int, cmd string) {
