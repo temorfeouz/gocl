@@ -36,7 +36,7 @@ func main() {
 	var width, height cl.CL_size_t
 
 	/* Open input file and read image data */
-	pixels, width, height, err1 = utils.Read_image_data(INPUT_FILE)
+	pixels, _, _, _, width, height, err1 = utils.Read_image_data(INPUT_FILE)
 	if err1 != nil {
 		return
 	} else {

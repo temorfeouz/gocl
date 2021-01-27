@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"image"
 	"image/color"
+	"image/jpeg"
 	"image/png"
 	"os"
+	"strings"
 
 	"github.com/temorfeouz/gocl/cl"
 )
@@ -17,50 +19,95 @@ func CHECK_STATUS(status cl.CL_int, reference cl.CL_int, cmd string) {
 		os.Exit(1)
 	}
 }
-
-func Read_image_data(filename string) (data []uint16, w, h cl.CL_size_t, err error) {
+func readPNG(filename string) (image.Image, error) {
 	reader, err1 := os.Open(filename)
 	if err1 != nil {
-		return nil, 0, 0, errors.New("Can't read input image file: " + filename)
+		return nil, errors.New("Can't read input image file: " + filename)
 	}
 	defer reader.Close()
 	m, _, err2 := image.Decode(reader)
 	if err2 != nil {
-		return nil, 0, 0, errors.New("Can't decode input image file")
+		return nil, errors.New("Can't decode input image file")
 	}
-
+	return m, nil
+}
+func readJPG(filename string) (image.Image, error) {
+	reader, err1 := os.Open(filename)
+	if err1 != nil {
+		return nil, errors.New("Can't read input image file: " + filename)
+	}
+	defer reader.Close()
+	m, err2 := jpeg.Decode(reader)
+	if err2 != nil {
+		return nil, errors.New("Can't decode input image file")
+	}
+	return m, nil
+}
+func Read_image_data(filename string) (r, g, b, a []uint16, w, h cl.CL_size_t, err error) {
+	tmp := strings.Split(strings.ToLower(filename), ".")
+	var m image.Image
+	switch tmp[len(tmp)-1] {
+	case "png":
+		m, err = readPNG(filename)
+		if err != nil {
+			return nil, nil, nil, nil, 0, 0, err
+		}
+	case "jpg", "jpeg":
+		m, err = readJPG(filename)
+		if err != nil {
+			return nil, nil, nil, nil, 0, 0, err
+		}
+	}
+	reader, err1 := os.Open(filename)
+	if err1 != nil {
+		return nil, nil, nil, nil, 0, 0, errors.New("Can't read input image file: " + filename)
+	}
+	defer reader.Close()
+	m, _, err2 := image.Decode(reader)
+	if err2 != nil {
+		return nil, nil, nil, nil, 0, 0, errors.New("Can't decode input image file")
+	}
 	bounds := m.Bounds()
 
 	w = cl.CL_size_t(bounds.Max.X - bounds.Min.X)
 	h = cl.CL_size_t(bounds.Max.Y - bounds.Min.Y)
 
 	/* Allocate memory and read image data */
-	data = make([]uint16, h*w)
+	r = make([]uint16, h*w)
+	g = make([]uint16, h*w)
+	b = make([]uint16, h*w)
+	a = make([]uint16, h*w)
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
-			r, _, _, _ := m.At(x, y).RGBA()
-			data[(y-bounds.Min.Y)*int(w)+(x-bounds.Min.X)] = uint16(r)
+			tmpR, tmpG, tmpB, tmpA := m.At(x, y).RGBA()
+			r[(y-bounds.Min.Y)*int(w)+(x-bounds.Min.X)] = uint16(tmpR)
+			g[(y-bounds.Min.Y)*int(w)+(x-bounds.Min.X)] = uint16(tmpG)
+			b[(y-bounds.Min.Y)*int(w)+(x-bounds.Min.X)] = uint16(tmpB)
+			a[(y-bounds.Min.Y)*int(w)+(x-bounds.Min.X)] = uint16(tmpA)
 		}
 	}
 
-	return data, w, h, err
+	return
 }
 
-func Write_image_data(filename string, data []uint16, w, h cl.CL_size_t) error {
+func Write_image_data(filename string, r, g, b, a []uint16, w, h cl.CL_size_t) error {
 	writer, err := os.Create(filename)
 	if err != nil {
 		return errors.New("Can't create output image file")
 	}
 	defer writer.Close()
 
-	m := image.NewGray16(image.Rect(0, 0, int(w), int(h)))
+	m := image.NewRGBA(image.Rect(0, 0, int(w), int(h)))
 	for y := 0; y < int(h); y++ {
 		for x := 0; x < int(w); x++ {
-			m.Set(x, y, color.Gray16{data[y*int(w)+x]})
+			m.Set(x, y, color.RGBA{uint8(r[y*int(w)+x]), uint8(g[y*int(w)+x]), uint8(b[y*int(w)+x]), uint8(a[y*int(w)+x])})
 		}
 	}
 
-	err = png.Encode(writer, m)
+	p := png.Encoder{
+		CompressionLevel: png.DefaultCompression,
+	}
+	err = p.Encode(writer, m)
 	if err != nil {
 		return errors.New("Can't encode output image file")
 	}

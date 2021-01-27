@@ -32,7 +32,7 @@ func main() {
 	inputFile := "test.png"
 	outputFile := "output.png"
 
-	inputpixels, imageWidth, imageHeight, err1 := utils.Read_image_data(inputFile)
+	inputpixels, _, _, _, imageWidth, imageHeight, err1 := utils.Read_image_data(inputFile)
 	if err1 != nil {
 		log.Fatal(err1)
 		return
