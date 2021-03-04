@@ -25,7 +25,8 @@ func main() {
 
 	/* Data and buffers */
 	var msg [16]byte
-	var msg_buffer cl.CL_mem
+	var counter int
+	var msg_buffer, counter_buffer cl.CL_mem
 
 	/* Create a device and context */
 	device = utils.Create_device()
@@ -50,9 +51,20 @@ func main() {
 		println("Couldn't create a buffer")
 		return
 	}
+	counter_buffer = cl.CLCreateBuffer(context, cl.CL_MEM_READ_WRITE,
+		cl.CL_size_t(unsafe.Sizeof(counter)), nil, &err)
+	if err < 0 {
+		println("Couldn't create a buffer")
+		return
+	}
 
 	/* Create kernel argument */
 	err = cl.CLSetKernelArg(kernel, 0, cl.CL_size_t(unsafe.Sizeof(msg_buffer)), unsafe.Pointer(&msg_buffer))
+	if err < 0 {
+		println("Couldn't set a kernel argument")
+		return
+	}
+	err = cl.CLSetKernelArg(kernel, 1, cl.CL_size_t(unsafe.Sizeof(counter_buffer)), unsafe.Pointer(&counter_buffer))
 	if err < 0 {
 		println("Couldn't set a kernel argument")
 		return
@@ -76,13 +88,20 @@ func main() {
 	err = cl.CLEnqueueReadBuffer(queue, msg_buffer, cl.CL_TRUE, 0,
 		cl.CL_size_t(unsafe.Sizeof(msg)), unsafe.Pointer(&msg[0]), 0, nil, nil)
 	if err < 0 {
-		println("Couldn't read the output buffer")
+		println("Couldn't read the output buffer1 ", err)
 		return
 	}
-	fmt.Printf("Kernel output: %s\n", msg)
+	err = cl.CLEnqueueReadBuffer(queue, counter_buffer, cl.CL_TRUE, 0,
+		cl.CL_size_t(unsafe.Sizeof(counter)), unsafe.Pointer(&counter), 0, nil, nil)
+	if err < 0 {
+		println("Couldn't read the output buffer2 ", err)
+		return
+	}
+	fmt.Printf("Kernel output: %s, counter %d\n", msg, counter)
 
 	/* Deallocate resources */
 	cl.CLReleaseMemObject(msg_buffer)
+	cl.CLReleaseMemObject(counter_buffer)
 	cl.CLReleaseKernel(kernel)
 	cl.CLReleaseCommandQueue(queue)
 	cl.CLReleaseProgram(*program)
